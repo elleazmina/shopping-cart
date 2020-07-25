@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick="handleIncreaseDecrease('phone', false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="phone-quantity" type="text" class="form-control text-center" value="1">
+                           <button onclick=" handleIncreaseDecrease('phone', true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <h5>$ <span id="phone-price"> 1219</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick="handleIncreaseDecrease('case', false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="case-quantity" type="text" class="form-control text-center" value="1">
+                           <button onclick=" handleIncreaseDecrease('case', true)"  class="btn btn-default"><i class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5>$ <span id="case-price"> 59</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5>$ <span id="total-price"> 1,278</span></h5>
+                        <h5>$ <span id="tax-amount"> 0</span></h5>
+                        <h5>$ <span id="grand-total"> 1,278</span></h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
+   <script>
+
+       function handleIncreaseDecrease(product, isIncrease) {
+       const productQuantity = document.getElementById(product + '-quantity');
+       const productQuantityNumber = parseInt(productQuantity.value);
+      //  const caseQuantityNew = caseQuantityNumber - 1;
+      let productQuantityNew = productQuantityNumber;
+      if(isIncrease == true) {
+         productQuantityNew = productQuantityNumber + 1;
+      }
+      if(isIncrease == false && productQuantityNumber > 0) {
+         productQuantityNew = productQuantityNumber - 1;
+      }
+       productQuantity.value = productQuantityNew;
+      //  const productPrice = productQuantityNew * 59;
+      let productPrice = 0;
+      if(product == 'phone') {
+         productPrice = productQuantityNew * 1219;
+      }
+      if(product == 'case') {
+         productPrice = productQuantityNew * 59;
+      }
+       document.getElementById(product + '-price').innerText = productPrice;
+       calculateTotal();
+    }
+
+    function calculateTotal() {
+      const phoneCount = getInputValue('phone');
+      const caseCount = getInputValue('case');
+
+      //  const phoneInput = document.getElementById('phone-quantity');
+      //  const phoneCount = parseInt(phoneInput.value);
+
+      //  const caseInput = document.getElementById('case-quantity');
+      //  const caseCount = parseInt(caseInput.value);
+
+       const totalPrice = phoneCount * 1219 + caseCount * 59;
+       document.getElementById('total-price').innerText = totalPrice;
+
+       const tax = Math.round(totalPrice * 0.1);
+       document.getElementById('tax-amount').innerText = tax;
+
+       const grandTotal = totalPrice + tax;
+       document.getElementById('grand-total').innerText = grandTotal;
+
+    }
+
+    function getInputValue(product) {
+      const productInput = document.getElementById(product + '-quantity');
+      const productCount = parseInt(productInput.value);
+      return productCount;
+    }
+
+   </script>
+</body>
+
+</html>
